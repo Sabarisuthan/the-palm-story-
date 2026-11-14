@@ -4,6 +4,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import CinematicStory from "@/components/CinematicStory";
 import StorySection from "@/components/sections/StorySection";
 import SweetsSection from "@/components/sections/SweetsSection";
+import SliceGame from "@/components/game/SliceGame";
 import ContactSection from "@/components/sections/ContactSection";
 import FinalSection from "@/components/FinalSection";
 
@@ -19,6 +20,8 @@ export default function Home() {
         {/* …then the written sections the film has earned. */}
         <StorySection />
         <SweetsSection />
+        {/* an interlude before the close: the brand's own slicing game */}
+        <SliceGame />
         <ContactSection />
         <FinalSection />
       </main>
