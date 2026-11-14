@@ -1,0 +1,11 @@
+# Normalise text files to LF in the repository, whatever the author's OS.
+* text=auto eol=lf
+
+# Binary brand assets and media — never convert or diff these.
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.mp4 binary
+*.woff binary
+*.woff2 binary

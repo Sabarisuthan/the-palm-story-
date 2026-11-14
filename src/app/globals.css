@@ -1,0 +1,365 @@
+@import "tailwindcss";
+
+@theme {
+  --color-karupatti: #5d1713;
+  --color-ivory: #f7f3ea;
+  --color-gold: #b88942;
+  --color-gold-soft: #d9b57a;
+  --color-palm: #68734b;
+  --color-earth: #4b260f;
+  --color-ink: #2b140a;
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .29  0 0 0 0 .15  0 0 0 0 .06  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+html {
+  background: var(--color-ivory);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-earth);
+  font-family: var(--font-sans);
+  font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
+  overflow-x: clip;
+}
+
+/* Subtle paper grain over the whole experience */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  background-image: var(--grain);
+  opacity: 0.09;
+  mix-blend-mode: multiply;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ivory);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Masked line / word reveal */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.reveal-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.02em 0.1em;
+  margin-bottom: -0.1em;
+}
+.reveal-word > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ── Typographic system ───────────────────────────────────────────────
+   One fluid scale for the whole site. Display type is set in the brand
+   serif at a light weight with optical tracking; supporting copy keeps a
+   readable measure. Headlines balance their line lengths, body copy avoids
+   orphans, and numerals are tabular so chapter labels align.             */
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: clamp(0.58rem, 0.52rem + 0.18vw, 0.7rem);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 1.15rem + 3.3vw, 4.9rem);
+  letter-spacing: 0.028em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-wrap: balance;
+  font-kerning: normal;
+}
+/* secondary display size — brand lines, closing statements */
+.display-sm {
+  font-size: clamp(1.65rem, 1.1rem + 1.9vw, 3.25rem);
+  letter-spacing: 0.034em;
+  line-height: 1.06;
+}
+
+/* italic serif supporting line under a headline */
+.lead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.02rem, 0.92rem + 0.36vw, 1.28rem);
+  line-height: 1.62;
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* Type set over footage: a soft shadow keeps it legible against bright
+   skies and busy foliage without reading as a drop shadow. */
+.ink-film {
+  text-shadow: 0 1px 2px rgba(28, 13, 4, 0.35), 0 4px 28px rgba(28, 13, 4, 0.55);
+}
+
+/* The narrator mascot owns a reserved band at the foot of the stage;
+   scene copy keeps clear of it at every viewport size. */
+.copy-safe-b {
+  padding-bottom: var(--lane-b, 0px);
+}
+/* only below md, where there is no room beside the character */
+.copy-safe-b-sm {
+  padding-bottom: var(--lane-b, 0px);
+}
+@media (min-width: 768px) {
+  .copy-safe-b-sm {
+    padding-bottom: 0;
+  }
+  /* only from md up, where the column is vertically centred */
+  .copy-safe-b-md {
+    padding-bottom: var(--lane-b, 0px);
+  }
+}
+
+/* Arch shape echoing the logo's frame */
+.arch {
+  border-radius: 999px 999px 18px 18px / 46% 46% 18px 18px;
+}
+
+.btn-line {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.05rem 2.1rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.6s var(--ease-silk);
+}
+.btn-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill, var(--color-karupatti));
+  transform: translateY(101%);
+  transition: transform 0.6s var(--ease-silk);
+}
+.btn-line:hover,
+.btn-line:focus-visible {
+  color: var(--btn-ink, var(--color-ivory));
+}
+.btn-line:hover::before,
+.btn-line:focus-visible::before {
+  transform: translateY(0);
+}
+.btn-line:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.5s var(--ease-silk);
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+[data-tone="dark"] [data-ch] {
+  color: rgb(75 38 15 / 0.45);
+}
+[data-tone="dark"] [data-ch][data-on="true"] {
+  color: var(--color-gold);
+}
+
+/* ── Navigation bar ───────────────────────────────────────────────────
+   The bar takes the theme of the section beneath it, and gains a surface
+   of its own once the page has scrolled away from the hero.            */
+header[data-theme="light"] {
+  --nav-ink: var(--color-earth);
+  --nav-strong: var(--color-karupatti);
+  --nav-veil: rgba(247, 243, 234, 0.92);
+  --nav-line: rgba(75, 38, 15, 0.12);
+}
+header[data-theme="dark"] {
+  --nav-ink: var(--color-ivory);
+  --nav-strong: var(--color-gold-soft);
+  --nav-veil: rgba(58, 13, 10, 0.88);
+  --nav-line: rgba(247, 243, 234, 0.16);
+}
+.nav-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--nav-veil, transparent);
+  border-bottom: 1px solid var(--nav-line, transparent);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-silk), background-color 0.6s var(--ease-silk);
+  pointer-events: none;
+}
+header[data-solid="true"] .nav-veil {
+  opacity: 1;
+}
+
+/* Gold CTA — outlined; antique gold floods in from the left on hover */
+.btn-gold {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 2.3rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--color-karupatti);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 75%, transparent);
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.7s var(--ease-silk), box-shadow 0.9s var(--ease-silk), border-color 0.7s var(--ease-silk);
+}
+.btn-gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, #a8793a, #c79a55 50%, #b88942);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-silk);
+}
+.btn-gold .btn-arrow {
+  display: inline-block;
+  transition: transform 0.7s var(--ease-silk);
+}
+.btn-gold:hover,
+.btn-gold:focus-visible {
+  color: var(--color-ivory);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 1px rgba(184, 137, 66, 0.15), 0 10px 40px -8px rgba(184, 137, 66, 0.55);
+}
+.btn-gold:hover::before,
+.btn-gold:focus-visible::before {
+  transform: scaleX(1);
+}
+.btn-gold:hover .btn-arrow,
+.btn-gold:focus-visible .btn-arrow {
+  transform: translateX(6px);
+}
+.btn-gold:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+/* Tiny animated brand emblem: a gold glint passes across it now and then */
+.emblem-shine {
+  position: relative;
+  display: inline-block;
+}
+.emblem-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 234, 186, 0.95) 50%, transparent 62%);
+  background-size: 300% 100%;
+  -webkit-mask: var(--emblem) center / contain no-repeat;
+  mask: var(--emblem) center / contain no-repeat;
+  animation: glint 7s ease-in-out 4.5s infinite;
+  background-position: 120% 0;
+  pointer-events: none;
+}
+@keyframes glint {
+  0% { background-position: 120% 0; }
+  22%, 100% { background-position: -20% 0; }
+}
+
+@keyframes thinkdot {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50% { transform: translateY(-30%); opacity: 1; }
+}
+
+@keyframes droplet {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 0.95; }
+  100% { transform: translateY(46px); opacity: 0; }
+}
+
+@keyframes leafsway {
+  0%, 100% { transform: rotate(calc(var(--sway, 1) * -1.6deg)) scale(1); }
+  50% { transform: rotate(calc(var(--sway, 1) * 1.8deg)) scale(calc(1 + var(--sway, 1) * 0.012)); }
+}
+@keyframes sundrift {
+  0% { transform: translate(-6%, -2%) scale(1); opacity: 0.85; }
+  50% { opacity: 1; }
+  100% { transform: translate(8%, 4%) scale(1.08); opacity: 0.9; }
+}
+@keyframes shafts {
+  0% { transform: rotate(-24deg) translateX(-4%); opacity: 0.45; }
+  100% { transform: rotate(-21deg) translateX(5%); opacity: 0.8; }
+}
+@keyframes sprout {
+  0%, 100% { transform: scaleY(0.92) rotate(-2deg); }
+  50% { transform: scaleY(1) rotate(2deg); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.2deg) scale(1); }
+  50% { transform: rotate(2.4deg) scale(1.015); }
+}
+@keyframes scrollcue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
